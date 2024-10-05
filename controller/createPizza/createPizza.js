@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
+const orderModel = require('../../models/Order.model');
 
-const pizzaController = (req, res, pizzaService) => {
+const pizzaController = async (req, res, pizzaService) => {
   try {
     const {
       pizza_name = 'Custom Pizza',
@@ -20,8 +21,9 @@ const pizzaController = (req, res, pizzaService) => {
       toppings,
       rating,
       base,
-      status: 'Pending',
-      id: uuidv4()
+      status: 'PENDING',
+      id: uuidv4(),
+      start_time: new Date().toISOString()
     };
 
     // in-memory db

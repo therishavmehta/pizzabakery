@@ -1,9 +1,10 @@
-const EventEmitter = require('events');
+const { EventEmitter } = require('events');
 const Order = require('./Order');
 const DoughChef = require('./DoughChef');
 const ToppingChef = require('./ToppingChef');
 const Waiter = require('./Waiter');
 const Oven = require('./Oven');
+const { MongoClient } = require('mongodb');
 
 const status = {
   PENDING: 'PENDING',
@@ -39,7 +40,25 @@ class PizzaRestaurant extends EventEmitter {
     this.oven = new Oven();
     this.currentOrderId = 1;
 
+    // MongoDB Setup
+    this.mongoClient = new MongoClient('mongodb://localhost:27017');
+    this.db = null;
+    this.initDB();
+
     this.on('newOrder', this.processOrders.bind(this));
+  }
+
+  async initDB() {
+    try {
+      await this.mongoClient.connect();
+      this.db = this.mongoClient.db('pizzaRestaurant');
+      console.log('Connected to MongoDB');
+    //   this.db
+    //     .collection('completedOrders')
+    //     .deleteMany({ status: status.COMPLETED });
+    } catch (error) {
+      console.error('Error connecting to MongoDB:', error);
+    }
   }
 
   addOrder(orderData) {
@@ -64,6 +83,7 @@ class PizzaRestaurant extends EventEmitter {
   }
 
   emitOrderData(order) {
+    order.timeline[order.status] = new Date().toISOString();
     this.io.emit('orderStatus', {
       ...order,
       id: order.id,
@@ -73,6 +93,7 @@ class PizzaRestaurant extends EventEmitter {
 
   async processOrder(order) {
     try {
+      //dough progress
       order.status = status.DOUGH_PENDING;
       this.emitOrderData(order);
       const doughChef = await this.getAvailableDoughChef();
@@ -82,14 +103,13 @@ class PizzaRestaurant extends EventEmitter {
       order.status = status.DOUGH_COMPLETED;
       this.emitOrderData(order);
 
+      //topping progress
       order.status = status.TOPPINGS_PENDING;
       this.emitOrderData(order);
-      // Process toppings in batches of up to 2
       const getAllToppingChefs = [];
       while (order.toppings.length > 0) {
         const toppingCount = Math.min(2, order.toppings.length);
         const toppingsToProcess = order.toppings.splice(0, toppingCount);
-
         const toppingChef = await this.getAvailableToppingChef(toppingCount);
         order.status = status.TOPPINGS_PROGRESS;
         this.emitOrderData(order);
@@ -100,6 +120,7 @@ class PizzaRestaurant extends EventEmitter {
       order.status = status.TOPPINGS_COMPLETED;
       this.emitOrderData(order);
 
+      //baking progress
       order.status = status.BAKING_PENDING;
       this.emitOrderData(order);
       await this.getAvailableOven();
@@ -109,21 +130,48 @@ class PizzaRestaurant extends EventEmitter {
       order.status = status.BAKING_COMPLETED;
       this.emitOrderData(order);
 
+      // serving progress
       order.status = status.SERVING_PENDING;
       this.emitOrderData(order);
       const waiter = await this.getAvailableWaiter();
       order.status = status.SERVING_PROGRESS;
       this.emitOrderData(order);
       await waiter.servePizza();
+      order.status = status.SERVING_COMPLETED;
+      this.emitOrderData(order);
 
       order.status = status.COMPLETED;
       this.emitOrderData(order);
+      await this.saveCompletedOrder(order);
       console.log(`Order ${order.id} completed!`);
       delete this.ordersInProgress[order.id];
     } catch (error) {
       console.error(`Error processing order ${order.id}:`, error);
       order.status = status.ERROR;
       this.emitOrderData(order);
+    }
+  }
+
+  async getCompletedOrders() {
+    try {
+      const completedOrdersCollection = this.db.collection('completedOrders');
+      const completedOrders = await completedOrdersCollection
+        .find({ status: status.COMPLETED })
+        .toArray();
+      return completedOrders;
+    } catch (error) {
+      console.error('Error fetching completed orders:', error);
+      return [];
+    }
+  }
+
+  async saveCompletedOrder(order) {
+    try {
+      const completedOrdersCollection = this.db.collection('completedOrders');
+      await completedOrdersCollection.insertOne(order);
+      console.log(`Order ${order.id} saved to MongoDB`);
+    } catch (error) {
+      console.error('Error saving completed order:', error);
     }
   }
 
