@@ -1,4 +1,4 @@
-const Staff = require('./staff');
+const Staff = require('./Staff');
 
 class Waiter extends Staff {
   constructor(id) {

@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 const pizzaController = (req, res, pizzaService) => {
   try {
     const {
@@ -10,7 +12,7 @@ const pizzaController = (req, res, pizzaService) => {
     if (!toppings || !Array.isArray(toppings) || toppings.length === 0) {
       return res
         .status(400)
-        .json({ error: { message: 'Toppings are required.' } });
+        .json({ error: { message: 'Toppings are required.' }, req });
     }
     const newPizza = {
       table_number,
@@ -19,7 +21,7 @@ const pizzaController = (req, res, pizzaService) => {
       rating,
       base,
       status: 'Pending',
-      id: crypto.randomUUID()
+      id: uuidv4()
     };
 
     // in-memory db
@@ -29,9 +31,9 @@ const pizzaController = (req, res, pizzaService) => {
       data: { ...newPizza }
     });
   } catch (e) {
-    return res
-      .status(500)
-      .json({ error: { message: 'Toppings are required.' } });
+    return res.status(500).json({
+      error: { message: 'Somethings Went Wrong' }
+    });
   }
 };
 

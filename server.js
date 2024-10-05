@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const cors = require('cors');
 
 const getAllPizzaController = require('./controller/getAllPizza/getAllPizza');
 const createPizzaController = require('./controller/createPizza/createPizza');
@@ -9,8 +10,17 @@ const PizzaRestaurant = require('./service/pizza/pizza.service');
 const app = express();
 const port = 8080;
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const server = http.createServer(app);
+
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST']
+  })
+);
+
 const io = new Server(server, {
   cors: {
     origin: '*',
