@@ -1,0 +1,314 @@
+[
+  {
+    "id": 1,
+    "pizza_name": "Margherita",
+    "toppings": ["mozzarella", "basil", "tomato_sauce"],
+    "base": "thin_crust",
+    "rating": 4.9,
+    "veg": true,
+    "image_url": "https://as1.ftcdn.net/v2/jpg/02/84/67/68/1000_F_284676870_syRkaC2c24MSnQEyURhXKPXeEJw1Gnqy.jpg",
+    "description": "A classic Margherita pizza featuring fresh mozzarella, basil, and a tomato sauce on a thin crust, offering a light and flavorful vegetarian option."
+  },
+  {
+    "id": 2,
+    "pizza_name": "Pepperoni",
+    "toppings": ["pepperoni", "mozzarella", "tomato_sauce"],
+    "base": "classic_crust",
+    "rating": 2.7,
+    "veg": false,
+    "image_url": "https://as2.ftcdn.net/v2/jpg/03/02/94/35/1000_F_302943525_D20M8wXTbk8ErnyDxcATx2mCf3Zx2za5.jpg",
+    "description": "A classic Pepperoni pizza with slices of pepperoni, melted mozzarella, and tomato sauce on a classic crust, ideal for meat lovers."
+  },
+  {
+    "id": 3,
+    "pizza_name": "BBQ Chicken",
+    "toppings": ["chicken", "bbq_sauce", "onions", "cheddar"],
+    "base": "thin_crust",
+    "rating": 1.5,
+    "veg": false,
+    "image_url": "https://thumbs.dreamstime.com/b/bbq-chicken-pizza-top-view-cut-pieces-bbq-chicken-pizza-top-view-cut-pieces-isolated-white-170997947.jpg",
+    "description": "This BBQ Chicken pizza is topped with tender chicken, sweet BBQ sauce, onions, and cheddar cheese on a thin crust."
+  },
+  {
+    "id": 4,
+    "pizza_name": "Hawaiian",
+    "toppings": ["ham", "pineapple", "mozzarella", "tomato_sauce"],
+    "base": "classic_crust",
+    "rating": 1.0,
+    "veg": false,
+    "image_url": "https://media.istockphoto.com/id/479293070/photo/pizza.jpg?s=612x612&w=0&k=20&c=6_FFHbieV8R1VPc7fehj5K6s3vlPt15xk6MeN6rSN_E=",
+    "description": "The Hawaiian pizza combines savory ham with sweet pineapple, mozzarella, and tomato sauce on a classic crust."
+  },
+  {
+    "id": 5,
+    "pizza_name": "Veggie Supreme",
+    "toppings": [
+      "bell_peppers",
+      "onions",
+      "olives",
+      "mushrooms",
+      "tomato_sauce"
+    ],
+    "base": "thin_crust",
+    "rating": 1.0,
+    "veg": true,
+    "image_url": "https://t3.ftcdn.net/jpg/06/32/67/10/360_F_632671042_nwbBpkQccJm2w4apQPUNc1WCWg6EJIlC.jpg",
+    "description": "A vegetarian delight, this Veggie Supreme pizza features a colorful mix of bell peppers, onions, olives, mushrooms, and tomato sauce on a thin crust."
+  },
+  {
+    "id": 6,
+    "pizza_name": "Meat Feast",
+    "toppings": ["pepperoni", "ham", "sausage", "bacon", "mozzarella"],
+    "base": "stuffed_crust",
+    "rating": 1.8,
+    "veg": false,
+    "image_url": "https://png.pngtree.com/png-clipart/20231107/original/pngtree-meat-feast-pizza-pizza-picture-image_13238761.png",
+    "description": "Packed with protein, this Meat Feast pizza is loaded with pepperoni, ham, sausage, bacon, and mozzarella on a stuffed crust."
+  },
+  {
+    "id": 7,
+    "pizza_name": "Buffalo Chicken",
+    "toppings": ["buffalo_chicken", "mozzarella", "ranch_sauce"],
+    "base": "thin_crust",
+    "rating": 3.1,
+    "veg": false,
+    "image_url": "https://img.freepik.com/premium-photo/top-view-minimalistic-isolated-buffalo-chicken-pizza_759095-167985.jpg",
+    "description": "This spicy Buffalo Chicken pizza features tender buffalo chicken, mozzarella, and a drizzle of ranch sauce on a thin crust."
+  },
+  {
+    "id": 8,
+    "pizza_name": "Four Cheese",
+    "toppings": ["mozzarella", "cheddar", "parmesan", "blue_cheese"],
+    "base": "classic_crust",
+    "rating": 2.9,
+    "veg": true,
+    "image_url": "https://thumbs.dreamstime.com/b/pizza-cheese-wooden-round-tray-top-view-isolated-background-pizza-cheese-wooden-round-tray-top-view-isolated-background-170074537.jpg",
+    "description": "For cheese lovers, the Four Cheese pizza combines mozzarella, cheddar, parmesan, and blue cheese on a classic crust for a rich and creamy experience."
+  },
+  {
+    "id": 9,
+    "pizza_name": "Spinach Alfredo",
+    "toppings": ["spinach", "alfredo_sauce", "mozzarella"],
+    "base": "thin_crust",
+    "rating": 4.7,
+    "veg": true,
+    "image_url": "https://img.freepik.com/premium-photo/spinach-pizza-with-cheese-isolated-white-background-top-view_136401-3166.jpg",
+    "description": "This Spinach Alfredo pizza is a creamy vegetarian option featuring spinach, Alfredo sauce, and mozzarella on a thin crust."
+  },
+  {
+    "id": 10,
+    "pizza_name": "Mushroom Delight",
+    "toppings": ["mushrooms", "garlic", "mozzarella", "parmesan"],
+    "base": "gluten_free",
+    "rating": 3.5,
+    "veg": true,
+    "image_url": "https://c8.alamy.com/comp/2XEE43H/pizza-with-mushrooms-and-bacon-on-top-view-2XEE43H.jpg",
+    "description": "A gluten-free vegetarian pizza, Mushroom Delight is topped with mushrooms, garlic, mozzarella, and parmesan."
+  },
+  {
+    "id": 11,
+    "pizza_name": "Italian Sausage",
+    "toppings": ["sausage", "onions", "mozzarella", "tomato_sauce"],
+    "base": "classic_crust",
+    "rating": 1.8,
+    "veg": false,
+    "image_url": "https://c8.alamy.com/comp/2D0TGHF/delicious-classic-italian-pizza-with-mozzarella-bacon-ham-pepperoni-sausage-mushrooms-and-onion-isolated-on-white-background-top-view-2D0TGHF.jpg",
+    "description": "The Italian Sausage pizza combines hearty sausage, onions, mozzarella, and tomato sauce on a classic crust."
+  },
+  {
+    "id": 12,
+    "pizza_name": "Mediterranean",
+    "toppings": ["feta_cheese", "olives", "sun_dried_tomatoes", "spinach"],
+    "base": "thin_crust",
+    "rating": 1.4,
+    "veg": true,
+    "image_url": "https://media.istockphoto.com/id/503818102/photo/mediterranean-pizza.jpg?s=612x612&w=0&k=20&c=4JOt9eI5HGK3oE4MUq33-Uqai3FNgYnWlzjfBlyqII0=",
+    "description": "Inspired by Mediterranean flavors, this pizza features feta cheese, olives, sun-dried tomatoes, and spinach on a thin crust."
+  },
+  {
+    "id": 13,
+    "pizza_name": "Taco Pizza",
+    "toppings": ["ground_beef", "lettuce", "tomatoes", "cheddar", "sour_cream"],
+    "base": "classic_crust",
+    "rating": 4.1,
+    "veg": false,
+    "image_url": "https://img.freepik.com/premium-photo/top-view-mexican-style-pizza-with-chicken-sous-vide-colorful-vegetable-mixture-spicy-sauce-mozzarella-white_157927-23969.jpg",
+    "description": "This Taco Pizza brings together ground beef, lettuce, tomatoes, cheddar, and sour cream for a Mexican twist on a classic crust."
+  },
+  {
+    "id": 14,
+    "pizza_name": "Philly Cheesesteak",
+    "toppings": ["steak", "bell_peppers", "onions", "mozzarella"],
+    "base": "thin_crust",
+    "rating": 4.0,
+    "veg": false,
+    "image_url": "https://img.freepik.com/premium-photo/top-view-minimalistic-isolated-philly-cheesesteak-pizza_759095-168198.jpg",
+    "description": "Inspired by the classic Philly Cheesesteak, this pizza includes steak, bell peppers, onions, and mozzarella on a thin crust."
+  },
+  {
+    "id": 15,
+    "pizza_name": "Capricciosa",
+    "toppings": ["ham", "artichokes", "mushrooms", "mozzarella"],
+    "base": "classic_crust",
+    "rating": 4.3,
+    "veg": false,
+    "image_url": "https://img.freepik.com/premium-photo/fresh-tasty-capricciosa-pizza-with-mozzarella-cheese-tomatoes-ham-champignons-isolated-white-background_136401-4314.jpg",
+    "description": "A gourmet option, Capricciosa pizza is topped with ham, artichokes, mushrooms, and mozzarella on a classic crust."
+  },
+  {
+    "id": 16,
+    "pizza_name": "White Pizza",
+    "toppings": ["ricotta", "garlic", "mozzarella"],
+    "base": "thin_crust",
+    "rating": 4.5,
+    "veg": true,
+    "image_url": "https://img.freepik.com/premium-photo/delicious-cheese-pizza-top-view-isolated-white-background_759707-2344.jpg",
+    "description": "A vegetarian White Pizza with ricotta, garlic, and mozzarella, served on a thin crust for a creamy and savory flavor."
+  },
+  {
+    "id": 17,
+    "pizza_name": "Mexican",
+    "toppings": [
+      "jalapenos",
+      "ground_beef",
+      "onions",
+      "tomato_sauce",
+      "cheddar"
+    ],
+    "base": "classic_crust",
+    "rating": 3.9,
+    "veg": false,
+    "image_url": "https://c8.alamy.com/comp/T0KAY7/tradition-mexican-pizza-with-pepper-beef-and-pickles-basted-with-garlic-sauce-top-view-T0KAY7.jpg",
+    "description": "A spicy Mexican pizza with jalapenos, ground beef, onions, tomato sauce, and cheddar cheese on a classic crust."
+  },
+  {
+    "id": 18,
+    "pizza_name": "Prosciutto Arugula",
+    "toppings": ["prosciutto", "arugula", "parmesan"],
+    "base": "thin_crust",
+    "rating": 4.0,
+    "veg": false,
+    "image_url": "https://thumbs.dreamstime.com/b/pizza-prosciutto-parma-ham-arugula-salad-rocket-parmesan-top-view-italian-cuisine-76805833.jpg",
+    "description": "This sophisticated Prosciutto Arugula pizza features prosciutto, fresh arugula, and parmesan on a thin crust."
+  },
+  {
+    "id": 19,
+    "pizza_name": "Pesto Chicken",
+    "toppings": ["chicken", "pesto_sauce", "mozzarella"],
+    "base": "thin_crust",
+    "rating": 4.2,
+    "veg": false,
+    "image_url": "https://img.freepik.com/premium-photo/top-view-minimalistic-isolated-pesto-chicken-bacon-pizza_759095-168190.jpg",
+    "description": "A delightful Pesto Chicken pizza topped with chicken, pesto sauce, and mozzarella on a thin crust."
+  },
+  {
+    "id": 20,
+    "pizza_name": "Eggplant Parmesan",
+    "toppings": ["eggplant", "marinara_sauce", "mozzarella", "parmesan"],
+    "base": "classic_crust",
+    "rating": 3.8,
+    "veg": true,
+    "image_url": "https://img.freepik.com/premium-photo/top-view-minimalistic-isolated-eggplant-parmesan_759095-183360.jpg",
+    "description": "A vegetarian pizza option, Eggplant Parmesan features roasted eggplant, marinara sauce, mozzarella, and parmesan on a classic crust."
+  },
+  {
+    "id": 21,
+    "pizza_name": "Shrimp Scampi",
+    "toppings": ["shrimp", "garlic", "olive_oil", "mozzarella"],
+    "base": "thin_crust",
+    "rating": 4.1,
+    "veg": false,
+    "image_url": "https://img.freepik.com/premium-photo/top-view-minimalistic-isolated-shrimp-scampi-pizza_759095-168227.jpg",
+    "description": "This Shrimp Scampi pizza is a seafood lover's dream with shrimp, garlic, olive oil, and mozzarella on a thin crust."
+  },
+  {
+    "id": 22,
+    "pizza_name": "BLT Pizza",
+    "toppings": ["bacon", "lettuce", "tomato", "mayonnaise"],
+    "base": "classic_crust",
+    "rating": 3.7,
+    "veg": false,
+    "image_url": "https://thumbs.dreamstime.com/z/delicious-classic-italian-pizza-sausages-ham-pepper-cheese-mozzarella-isolated-white-background-top-view-delicious-271682724.jpg",
+    "description": "This BLT Pizza combines crispy bacon, fresh lettuce, tomatoes, and mayonnaise on a classic crust for a twist on the traditional sandwich."
+  },
+  {
+    "id": 23,
+    "pizza_name": "Salami and Olives",
+    "toppings": ["salami", "olives", "mozzarella"],
+    "base": "stuffed_crust",
+    "rating": 2.6,
+    "veg": false,
+    "image_url": "https://png.pngtree.com/png-vector/20240302/ourlarge/pngtree-pizza-with-salami-and-olives-isolated-on-white-top-view-png-image_11889096.png",
+    "description": "This Salami and Olives pizza offers a savory combination of salami, olives, and mozzarella on a stuffed crust."
+  },
+  {
+    "id": 24,
+    "pizza_name": "Greek Pizza",
+    "toppings": ["feta", "spinach", "olives", "tomato"],
+    "base": "thin_crust",
+    "rating": 4.4,
+    "veg": true,
+    "image_url": "https://thumbs.dreamstime.com/b/greek-pizza-white-plate-background-directly-above-view-296685387.jpg",
+    "description": "Inspired by Greek cuisine, this pizza features feta cheese, spinach, olives, and tomatoes on a thin crust."
+  },
+  {
+    "id": 25,
+    "pizza_name": "Truffle Mushroom",
+    "toppings": ["truffle_oil", "mushrooms", "mozzarella", "parmesan"],
+    "base": "classic_crust",
+    "rating": 4.5,
+    "veg": true,
+    "image_url": "https://img.freepik.com/premium-photo/top-view-minimalistic-isolated-truffle-wild-mushroom-pizza_759095-168256.jpg?w=360",
+    "description": "This gourmet Truffle Mushroom pizza is topped with earthy truffle oil, mushrooms, mozzarella, and parmesan on a classic crust."
+  },
+  {
+    "id": 26,
+    "pizza_name": "Pulled Pork",
+    "toppings": ["pulled_pork", "bbq_sauce", "cheddar", "onions"],
+    "base": "thin_crust",
+    "rating": 4.1,
+    "veg": false,
+    "image_url": "https://thumbs.dreamstime.com/b/bbq-chicken-pizza-top-view-cut-pieces-bbq-chicken-pizza-top-view-cut-pieces-isolated-white-170997947.jpg",
+    "description": "This Pulled Pork pizza is smothered in BBQ sauce, cheddar, and onions, with succulent pulled pork on a thin crust."
+  },
+  {
+    "id": 27,
+    "pizza_name": "Chicken Bacon Ranch",
+    "toppings": ["chicken", "bacon", "ranch_sauce", "mozzarella"],
+    "base": "classic_crust",
+    "rating": 3.5,
+    "veg": false,
+    "image_url": "https://t4.ftcdn.net/jpg/03/11/64/85/360_F_311648552_Ao2ja3bhh9azaEkE2jApcKq6me9utukt.jpg",
+    "description": "This hearty Chicken Bacon Ranch pizza features a savory combination of chicken, crispy bacon, ranch sauce, and mozzarella on a classic crust."
+  },
+  {
+    "id": 28,
+    "pizza_name": "Buffalo Veggie",
+    "toppings": ["buffalo_sauce", "bell_peppers", "onions", "mozzarella"],
+    "base": "thin_crust",
+    "rating": 4.0,
+    "veg": true,
+    "image_url": "https://i.pinimg.com/736x/0d/18/a1/0d18a1bfde76b6751e3e80ee86b5cc72.jpg",
+    "description": "For vegetarians who love a little spice, this Buffalo Veggie pizza features buffalo sauce, bell peppers, onions, and mozzarella on a thin crust."
+  },
+  {
+    "id": 29,
+    "pizza_name": "Mac and Cheese",
+    "toppings": ["macaroni", "cheddar", "mozzarella"],
+    "base": "classic_crust",
+    "rating": 4.3,
+    "veg": true,
+    "image_url": "https://media.istockphoto.com/id/502675536/photo/gourmet-pizza.jpg?s=612x612&w=0&k=20&c=QDxAMdmXMLkuWnlKSnmmuTzFpNgOIV1IiRrwAIWB9uU=",
+    "description": "This Mac and Cheese pizza combines two comfort foods into one, featuring creamy macaroni, cheddar, and mozzarella on a classic crust."
+  },
+  {
+    "id": 30,
+    "pizza_name": "Garlic Chicken",
+    "toppings": ["chicken", "garlic_sauce", "mozzarella"],
+    "base": "thin_crust",
+    "rating": 3.8,
+    "veg": false,
+    "image_url": "https://static.vecteezy.com/system/resources/previews/024/589/314/original/top-view-pizza-with-ai-generated-free-png.png",
+    "description": "A savory Garlic Chicken pizza with tender chicken, garlic sauce, and mozzarella on a thin crust."
+  }
+]
