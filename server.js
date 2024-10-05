@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const getAllPizzaController = require('./controller/getAllPizza/getAllPizza');
 const createPizzaController = require('./controller/createPizza/createPizza');
+const previousOrdersController = require('./controller/getPreviousOrders');
 const PizzaRestaurant = require('./service/pizza/pizza.service');
 
 const app = express();
@@ -13,7 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const server = http.createServer(app);
-
 app.use(
   cors({
     origin: '*',
@@ -43,6 +43,10 @@ app.get('/all', getAllPizzaController);
 // route to create pizza order
 app.post('/pizza', (res, req) =>
   createPizzaController(res, req, pizzaRestaurant)
+);
+
+app.get('/orders', (res, req) =>
+  previousOrdersController(res, req, pizzaRestaurant)
 );
 
 server.listen(port, () => {
