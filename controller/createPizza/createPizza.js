@@ -1,4 +1,7 @@
-const pizzaController = (req, res, pizzaService) => {
+const { v4: uuidv4 } = require('uuid');
+const orderModel = require('../../models/Order.model');
+
+const pizzaController = async (req, res, pizzaService) => {
   try {
     const {
       pizza_name = 'Custom Pizza',
@@ -10,7 +13,7 @@ const pizzaController = (req, res, pizzaService) => {
     if (!toppings || !Array.isArray(toppings) || toppings.length === 0) {
       return res
         .status(400)
-        .json({ error: { message: 'Toppings are required.' } });
+        .json({ error: { message: 'Toppings are required.' }, req });
     }
     const newPizza = {
       table_number,
@@ -18,8 +21,9 @@ const pizzaController = (req, res, pizzaService) => {
       toppings,
       rating,
       base,
-      status: 'Pending',
-      id: crypto.randomUUID()
+      status: 'PENDING',
+      id: uuidv4(),
+      start_time: new Date().toISOString()
     };
 
     // in-memory db
@@ -29,9 +33,9 @@ const pizzaController = (req, res, pizzaService) => {
       data: { ...newPizza }
     });
   } catch (e) {
-    return res
-      .status(500)
-      .json({ error: { message: 'Toppings are required.' } });
+    return res.status(500).json({
+      error: { message: 'Somethings Went Wrong' }
+    });
   }
 };
 

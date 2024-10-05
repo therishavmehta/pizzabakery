@@ -1,0 +1,14 @@
+version: '3'
+services:  
+  mongodb:    
+    image: mongo:latest    
+    container_name: mongodb    
+    ports:
+       - "27017:27017"  
+  nodejs-app:
+      build: .
+      volumes:
+        - .:/app    
+      command: "node server.js"    
+      depends_on:      
+        - mongodb
