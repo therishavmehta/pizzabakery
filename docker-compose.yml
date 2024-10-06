@@ -2,7 +2,7 @@ version: '3'
 services:
   mongo_db:
     image: mongo:latest
-    container_name: db
+    container_name: pizzabakery_db
     restart: always
     volumes:
       - ./data/mongo:/data/db
@@ -11,6 +11,7 @@ services:
 
   #nodejs-api
   api:
+    container_name: pizzabakery_be
     build: .
     ports:
       - 8080:8080
@@ -26,13 +27,14 @@ services:
 
   # Frontend service
   frontend:
+    container_name: pizzabakery_fe
     build:
       context: ./../pizzabakery-fe
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
     volumes:
-      - ./../pizzabakery-fe:/app
+      - ./../pizzabakery:/usr/src/app
     depends_on:
       - api
 
