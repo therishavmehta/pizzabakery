@@ -1,5 +1,7 @@
-version: '3'
+version: '1.0'
 services:
+
+  #db-service
   mongo_db:
     image: mongo:latest
     container_name: pizzabakery_db
@@ -9,7 +11,7 @@ services:
     ports:
       - '27017:27017'
 
-  #nodejs-api
+  #backend-service
   api:
     container_name: pizzabakery_be
     build: .
@@ -25,7 +27,7 @@ services:
     depends_on:
       - mongo_db
 
-  # Frontend service
+  #frontend-service
   frontend:
     container_name: pizzabakery_fe
     build:
