@@ -1,14 +1,28 @@
 version: '3'
-services:  
-  mongodb:    
-    image: mongo:latest    
-    container_name: mongodb    
+services:
+  mongo_db:
+    image: mongo:latest
+    container_name: db
+    restart: always
+    volumes:
+      - ./data/mongo:/data/db
     ports:
-       - "27017:27017"  
-  nodejs-app:
-      build: .
-      volumes:
-        - .:/app    
-      command: "node server.js"    
-      depends_on:      
-        - mongodb
+      - '27017:27017'
+
+  #nodejs-api
+  api:
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      MONGO_URL: mongodb://mongo_db:27017
+      DB_NAME: pizzaRestaurant
+      PORT: 8080
+    volumes:
+      - .:/app
+    command: 'node server.js'
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}

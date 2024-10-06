@@ -41,7 +41,7 @@ class PizzaRestaurant extends EventEmitter {
     this.currentOrderId = 1;
 
     // MongoDB Setup
-    this.mongoClient = new MongoClient('mongodb://localhost:27017');
+    this.mongoClient = new MongoClient(process.env.MONGO_URL);
     this.db = null;
     this.initDB();
 
@@ -51,11 +51,11 @@ class PizzaRestaurant extends EventEmitter {
   async initDB() {
     try {
       await this.mongoClient.connect();
-      this.db = this.mongoClient.db('pizzaRestaurant');
+      this.db = this.mongoClient.db(process.env.DB_NAME);
       console.log('Connected to MongoDB');
-    //   this.db
-    //     .collection('completedOrders')
-    //     .deleteMany({ status: status.COMPLETED });
+      //   this.db
+      //     .collection('completedOrders')
+      //     .deleteMany({ status: status.COMPLETED });
     } catch (error) {
       console.error('Error connecting to MongoDB:', error);
     }
