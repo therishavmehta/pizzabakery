@@ -24,5 +24,17 @@ services:
     depends_on:
       - mongo_db
 
+  # Frontend service
+  frontend:
+    build:
+      context: ./../pizzabakery-fe
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./../pizzabakery-fe:/app
+    depends_on:
+      - api
+
 volumes:
   mongo_db: {}
