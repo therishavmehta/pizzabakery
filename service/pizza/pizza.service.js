@@ -41,7 +41,9 @@ class PizzaRestaurant extends EventEmitter {
     this.currentOrderId = 1;
 
     // MongoDB Setup
-    this.mongoClient = new MongoClient(process.env.MONGO_URL);
+    this.mongoClient = new MongoClient(
+      process.env.MONGO_URL || 'mongodb://localhost:27017'
+    );
     this.db = null;
     this.initDB();
 
@@ -106,15 +108,20 @@ class PizzaRestaurant extends EventEmitter {
       //topping progress
       order.status = status.TOPPINGS_PENDING;
       this.emitOrderData(order);
-      const getAllToppingChefs = [];
+      let getAllToppingChefs = [];
       while (order.toppings.length > 0) {
         const toppingCount = Math.min(2, order.toppings.length);
-        const toppingsToProcess = order.toppings.splice(0, toppingCount);
         const toppingChef = await this.getAvailableToppingChef(toppingCount);
-        order.status = status.TOPPINGS_PROGRESS;
-        this.emitOrderData(order);
-        toppingChef.isBusy = true;
-        getAllToppingChefs.push(toppingChef.addToppings.bind(toppingChef, 2));
+        if (!toppingChef && getAllToppingChefs.length > 0) {
+          await Promise.all(getAllToppingChefs.map((fn) => fn()));
+          getAllToppingChefs = [];
+        } else if (toppingChef) {
+          const toppingsToProcess = order.toppings.splice(0, toppingCount);
+          order.status = status.TOPPINGS_PROGRESS;
+          this.emitOrderData(order);
+          toppingChef.isBusy = true;
+          getAllToppingChefs.push(toppingChef.addToppings.bind(toppingChef, 2));
+        }
       }
       await Promise.all(getAllToppingChefs.map((fn) => fn()));
       order.status = status.TOPPINGS_COMPLETED;
@@ -198,7 +205,7 @@ class PizzaRestaurant extends EventEmitter {
         if (availableChef) {
           resolve(availableChef);
         } else {
-          setTimeout(checkAvailability, 500);
+          resolve(false);
         }
       };
       checkAvailability();
