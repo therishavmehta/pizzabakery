@@ -6,7 +6,7 @@ const Waiter = require('./Waiter');
 const Oven = require('./Oven');
 const { MongoClient } = require('mongodb');
 
-const status = {
+const statusEnum = {
   PENDING: 'PENDING',
   DOUGH_PENDING: 'DOUGH_PENDING',
   DOUGH_PROGRESS: 'DOUGH_PROGRESS',
@@ -55,9 +55,7 @@ class PizzaRestaurant extends EventEmitter {
       await this.mongoClient.connect();
       this.db = this.mongoClient.db(process.env.DB_NAME);
       console.log('Connected to MongoDB');
-      //   this.db
-      //     .collection('completedOrders')
-      //     .deleteMany({ status: status.COMPLETED });
+      this.db.collection('completedOrders').deleteMany({});
     } catch (error) {
       console.error('Error connecting to MongoDB:', error);
     }
@@ -85,9 +83,9 @@ class PizzaRestaurant extends EventEmitter {
     }
   }
 
-  emitOrderData(order) {
+  async emitOrderData(order) {
     order.timeline[order.status] = new Date().toISOString();
-    this.updateDataToDb({
+    await this.updateDataToDb({
       status: order.status,
       timeline: order.timeline,
       id: order._id
@@ -102,17 +100,17 @@ class PizzaRestaurant extends EventEmitter {
   async processOrder(order) {
     try {
       //dough progress
-      order.status = status.DOUGH_PENDING;
+      order.status = statusEnum.DOUGH_PENDING;
       this.emitOrderData(order);
       const doughChef = await this.getAvailableDoughChef();
-      order.status = status.DOUGH_PROGRESS;
+      order.status = statusEnum.DOUGH_PROGRESS;
       this.emitOrderData(order);
       await doughChef.prepareDough();
-      order.status = status.DOUGH_COMPLETED;
+      order.status = statusEnum.DOUGH_COMPLETED;
       this.emitOrderData(order);
 
       //topping progress
-      order.status = status.TOPPINGS_PENDING;
+      order.status = statusEnum.TOPPINGS_PENDING;
       this.emitOrderData(order);
       let getAllToppingChefs = [];
       const currentToppings = [...order.toppings];
@@ -126,43 +124,41 @@ class PizzaRestaurant extends EventEmitter {
         } else if (toppingChef) {
           toppingChef.isBusy = true;
           const toppingsToProcess = currentToppings.splice(0, toppingCount);
-          order.status = status.TOPPINGS_PROGRESS;
+          order.status = statusEnum.TOPPINGS_PROGRESS;
           this.emitOrderData(order);
           getAllToppingChefs.push(toppingChef.addToppings.bind(toppingChef, 2));
         }
       }
       await Promise.all(getAllToppingChefs.map((fn) => fn()));
       this.toppingChefs.forEach((chef) => (chef.isBusy = false));
-      order.status = status.TOPPINGS_COMPLETED;
+      order.status = statusEnum.TOPPINGS_COMPLETED;
       this.emitOrderData(order);
 
       //baking progress
-      order.status = status.BAKING_PENDING;
+      order.status = statusEnum.BAKING_PENDING;
       this.emitOrderData(order);
       await this.getAvailableOven();
-      order.status = status.BAKING_PROGRESS;
+      order.status = statusEnum.BAKING_PROGRESS;
       this.emitOrderData(order);
       await this.oven.bakePizza(order);
-      order.status = status.BAKING_COMPLETED;
+      order.status = statusEnum.BAKING_COMPLETED;
       this.emitOrderData(order);
 
       // serving progress
-      order.status = status.SERVING_PENDING;
+      order.status = statusEnum.SERVING_PENDING;
       this.emitOrderData(order);
       const waiter = await this.getAvailableWaiter();
-      order.status = status.SERVING_PROGRESS;
+      order.status = statusEnum.SERVING_PROGRESS;
       this.emitOrderData(order);
       await waiter.servePizza();
-      order.status = status.SERVING_COMPLETED;
-      this.emitOrderData(order);
 
-      order.status = status.COMPLETED;
+      order.status = statusEnum.COMPLETED;
       this.emitOrderData(order);
       console.log(`Order ${order.id} completed!`);
       delete this.ordersInProgress[order.id];
     } catch (error) {
       console.error(`Error processing order ${order.id}:`, error);
-      order.status = status.ERROR;
+      order.status = statusEnum.ERROR;
       this.emitOrderData(order);
     }
   }
@@ -202,11 +198,14 @@ class PizzaRestaurant extends EventEmitter {
   async updateDataToDb({ status, timeline, id }) {
     try {
       const completedOrdersCollection = this.db.collection('completedOrders');
-      await completedOrdersCollection.updateOne(
+      const modifiedStatus =
+        timeline.COMPLETED?.length > 0 ? statusEnum.COMPLETED : status;
+      const res = await completedOrdersCollection.updateOne(
         { _id: id },
-        { $set: { timeline, status } },
+        { $set: { timeline, status: modifiedStatus } },
         { upsert: false }
       );
+      // console.log(res);
     } catch (error) {
       console.error('Error saving completed order:', error);
     }
