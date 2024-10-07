@@ -117,19 +117,21 @@ class PizzaRestaurant extends EventEmitter {
       let getAllToppingChefs = [];
       while (order.toppings.length > 0) {
         const toppingCount = Math.min(2, order.toppings.length);
-        const toppingChef = await this.getAvailableToppingChef(toppingCount);
+        let toppingChef =
+          await this.getAvailableToppingChef(getAllToppingChefs);
         if (!toppingChef && getAllToppingChefs.length > 0) {
           await Promise.all(getAllToppingChefs.map((fn) => fn()));
           getAllToppingChefs = [];
         } else if (toppingChef) {
+          toppingChef.isBusy = true;
           const toppingsToProcess = order.toppings.splice(0, toppingCount);
           order.status = status.TOPPINGS_PROGRESS;
           this.emitOrderData(order);
-          toppingChef.isBusy = true;
           getAllToppingChefs.push(toppingChef.addToppings.bind(toppingChef, 2));
         }
       }
       await Promise.all(getAllToppingChefs.map((fn) => fn()));
+      this.toppingChefs.forEach((chef) => (chef.isBusy = false));
       order.status = status.TOPPINGS_COMPLETED;
       this.emitOrderData(order);
 
@@ -178,6 +180,14 @@ class PizzaRestaurant extends EventEmitter {
     }
   }
 
+  async deleteOrder(order) {
+    try {
+      const collection = this.db.collection('completedOrders');
+      const res = await collection.deleteOne({ _id: order._id });
+      return res;
+    } catch (e) {}
+  }
+
   async saveDataToDb(order) {
     try {
       const completedOrdersCollection = this.db.collection('completedOrders');
@@ -215,16 +225,21 @@ class PizzaRestaurant extends EventEmitter {
     });
   }
 
-  getAvailableToppingChef() {
+  getAvailableToppingChef(currentChefs) {
     return new Promise((resolve) => {
       const checkAvailability = () => {
-        const availableChef = this.toppingChefs.find(
-          (chef) => !chef.getIsBusy()
-        );
+        const availableChef = this.toppingChefs.find((chef) => {
+          if (!chef.getIsBusy()) {
+            chef.isBusy = true;
+            return true;
+          }
+        });
         if (availableChef) {
           resolve(availableChef);
-        } else {
+        } else if (currentChefs.length > 0) {
           resolve(false);
+        } else {
+          setTimeout(checkAvailability, 500);
         }
       };
       checkAvailability();

@@ -7,7 +7,7 @@ class ToppingChef extends Chef {
   }
 
   addToppings(toppingCount) {
-    return this.performTask(4000 * toppingCount, 'adding toppings')
+    return this.performTask(4000 * toppingCount, 'adding toppings');
   }
 }
 
