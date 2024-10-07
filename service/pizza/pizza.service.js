@@ -115,8 +115,9 @@ class PizzaRestaurant extends EventEmitter {
       order.status = status.TOPPINGS_PENDING;
       this.emitOrderData(order);
       let getAllToppingChefs = [];
-      while (order.toppings.length > 0) {
-        const toppingCount = Math.min(2, order.toppings.length);
+      const currentToppings = [...order.toppings];
+      while (currentToppings.length > 0) {
+        const toppingCount = Math.min(2, currentToppings.length);
         let toppingChef =
           await this.getAvailableToppingChef(getAllToppingChefs);
         if (!toppingChef && getAllToppingChefs.length > 0) {
@@ -124,7 +125,7 @@ class PizzaRestaurant extends EventEmitter {
           getAllToppingChefs = [];
         } else if (toppingChef) {
           toppingChef.isBusy = true;
-          const toppingsToProcess = order.toppings.splice(0, toppingCount);
+          const toppingsToProcess = currentToppings.splice(0, toppingCount);
           order.status = status.TOPPINGS_PROGRESS;
           this.emitOrderData(order);
           getAllToppingChefs.push(toppingChef.addToppings.bind(toppingChef, 2));
