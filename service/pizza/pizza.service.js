@@ -69,6 +69,7 @@ class PizzaRestaurant extends EventEmitter {
     this.ordersInProgress[order.id] = order;
     console.log(`Order ${order.id} added to the queue`);
     this.emit('newOrder');
+    this.saveDataToDb(order);
     this.io.emit('orderCreated', { id: order.id, status: order.status });
     return order.id;
   }
@@ -86,6 +87,11 @@ class PizzaRestaurant extends EventEmitter {
 
   emitOrderData(order) {
     order.timeline[order.status] = new Date().toISOString();
+    this.updateDataToDb({
+      status: order.status,
+      timeline: order.timeline,
+      id: order._id
+    });
     this.io.emit('orderStatus', {
       ...order,
       id: order.id,
@@ -149,7 +155,6 @@ class PizzaRestaurant extends EventEmitter {
 
       order.status = status.COMPLETED;
       this.emitOrderData(order);
-      await this.saveCompletedOrder(order);
       console.log(`Order ${order.id} completed!`);
       delete this.ordersInProgress[order.id];
     } catch (error) {
@@ -163,7 +168,8 @@ class PizzaRestaurant extends EventEmitter {
     try {
       const completedOrdersCollection = this.db.collection('completedOrders');
       const completedOrders = await completedOrdersCollection
-        .find({ status: status.COMPLETED })
+        .find({})
+        .sort({ 'timeline.PENDING': -1 })
         .toArray();
       return completedOrders;
     } catch (error) {
@@ -172,11 +178,24 @@ class PizzaRestaurant extends EventEmitter {
     }
   }
 
-  async saveCompletedOrder(order) {
+  async saveDataToDb(order) {
     try {
       const completedOrdersCollection = this.db.collection('completedOrders');
       await completedOrdersCollection.insertOne(order);
       console.log(`Order ${order.id} saved to MongoDB`);
+    } catch (error) {
+      console.error('Error saving completed order:', error);
+    }
+  }
+
+  async updateDataToDb({ status, timeline, id }) {
+    try {
+      const completedOrdersCollection = this.db.collection('completedOrders');
+      await completedOrdersCollection.updateOne(
+        { _id: id },
+        { $set: { timeline, status } },
+        { upsert: false }
+      );
     } catch (error) {
       console.error('Error saving completed order:', error);
     }
